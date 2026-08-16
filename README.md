@@ -9,9 +9,9 @@ This personal project analyzes dog bite incidents across NYC to determine if a s
 
 -Conducted descriptive statistics to understand and summarize the data, ensuring data quality and identifying patterns in the data.
 
--Conducted univariate visualization to identify the distributions of the categorical variables.
+-Conducted univariate visualizations to identify the distributions of the categorical variables.
 
--Conducted bivariate visualization to visualize the associations between dog characters and boroughs.
+-Conducted bivariate visualizations to visualize the associations between dog characters and boroughs.
 
 -Performed chi-square tests of independence to determine significant statistical associations.
 
@@ -20,7 +20,7 @@ This personal project analyzes dog bite incidents across NYC to determine if a s
 # The Process
 I started by importing the necessary tools for analysis in Jupyter Notebook. The first step was performing data cleaning since the dataset was messy. I checked for duplicates, missing values, blanks, formatting errors, and numeric conversions.
 
-Missing values and blanks were detected in the dataset. I did not drop those rows or fill them in with imputation because, as I analyzed the dataset, I realized the data was Missing Not At Random (MNAR), which is the most problematic type and can introduce bias if ignored. Due to this, I decided to replace the blanks and missing values with NaN or “Unknown” to prevent bias and avoid introducing assumptions through imputation. 
+Missing values and blanks were detected in the dataset. I did not drop those rows or fill them in with an estimated value. First, I converted the blanks to NaN so they would be recognized as missing values during analysis. As I looked into the pattern of missingness, I realized the data was Missing Not At Random (MNAR), meaning the missingness was related to the value itself, not just random chance. Because filling it in with an estimated value, such as the mean or mode, would have introduced an assumption about what the value likely was and hidden that pattern, I labeled the missing categorical values as "Unknown" instead, so the missingness remained visible as its own category rather than being guessed at.
 
 After data cleaning, I conducted univariate and bivariate visualizations of the variables I will use for my statistical analysis to identify their distributions and visualize their associations before conducting the test.
 <img width="762" height="561" alt="Image" src="https://github.com/user-attachments/assets/15c77a33-75e7-480f-b199-cfeeaa0ee15a" />
@@ -31,7 +31,8 @@ After data cleaning, I conducted univariate and bivariate visualizations of the 
 
 Since both tests use categorical variables, I conducted the Chi-Square Test of Independence.
 
-For both Chi-Square tests, “Unknown” and “Other” were excluded from the tests. These values were only filled during data cleaning to prevent introducing bias, and including them wouldn’t be relevant to answering the research questions.
+For both Chi-Square tests, "Unknown" and "Other" were excluded. These values were assigned during data cleaning to preserve missingness without guessing at an estimated value, and including them wouldn't be relevant to answering the research questions.
+
 
 Research Question 1: Is there an association between a dog’s gender and its spay/neuter status in reported bite incidents?
 
@@ -52,16 +53,20 @@ Chi-Square Test 1 Results:
 ![Image](https://github.com/user-attachments/assets/dcd112ca-840f-452d-bea3-dc80cddde650)
 ![Image](https://github.com/user-attachments/assets/31d9db5b-5cfd-4832-b824-e6b7ed0f42fd)
 
-The p-value is 0 and is less than the significance level of 0.05, meaning we reject the null hypothesis. Cramer’s V is 0.03, indicating a weak association between a dog’s gender and its spay/neuter status. These results show that technically there is an association, but it is weak and meaningless in practice.
+The p-value is less than .001, which is below the significance level of 0.05, so we reject the null hypothesis. Cramér's V is 0.038, indicating a negligible association between a dog's gender and its spay/neuter status. Although the association is statistically significant, it is too weak to be meaningful in practice.
 
 Chi-Square Test 2 Results:
 
 ![Image](https://github.com/user-attachments/assets/b03fd056-38cd-436c-ae90-183db7a368a2)
 ![Image](https://github.com/user-attachments/assets/aa5de5f1-463a-47f4-999d-37897a8e3c51)
 
-The p-value is 0 and is less than the significance level of 0.05, meaning we reject the null hypothesis. Cramer’s V is 0.13, indicating a weak association between a dog’s spay/neuter status and the borough where the bite incident occurred. These results show that technically there is an association, but it is weak and meaningless in practice. 
+The p-value is less than .001, which is below the significance level of 0.05, so we reject the null hypothesis. Cramér's V is 0.130. Given this table has 4 degrees of freedom, that value falls close to the threshold for a moderate association rather than a negligible one. This suggests spay/neuter status and borough have a more meaningful relationship than the gender comparison above, even though both results are statistically significant.
 
-# Course of Action
-Based on Chi-Square Test 1, the DOHMH could emphasize the importance of spaying and neutering dogs through their website or social media ads. Even though the association between a dog’s gender and its spay/neuter status is weak, these messages can help raise public awareness among New Yorkers.
+# Future Considerations
+-Since gender showed a negligible association with spay/neuter status, outreach efforts are unlikely to benefit from being tailored by gender based on this analysis.
 
-Based on Chi-Square Test 2, the DOHMH could focus on conducting public campaign programs in boroughs where more dogs that aren’t spayed/neutered are reported. Even though the association between a dog’s spay/neuter status and the borough where the incident occurred is weak, campaign programs can still help raise public awareness to help prevent dog bite incidents.
+-The moderate association between spay/neuter status and borough suggests unspayed/unneutered dogs are more frequently involved in reported bite incidents in certain boroughs (e.g., Bronx, Queens) than others, which may be worth further investigation by DOHMH.
+
+-Because this analysis only includes reported bite incidents rather than a comparison to the general dog population, it cannot confirm that spay/neuter status increases bite risk, only that the two are associated within this dataset. Comparing bite-incident data to borough-level spay/neuter registration rates would help clarify whether this reflects an actual risk pattern or differences in dog population/reporting across boroughs.
+
+-These findings could serve as a starting point for identifying where spay/neuter awareness efforts might be worth prioritizing, pending further validation with population-level data.
